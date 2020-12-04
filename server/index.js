@@ -36,7 +36,7 @@ io.on("connect", (socket) => {
   })
   socket.on("send_message", (myMessage, callback) => {
     const user = getUser(socket.id)
-    const message = myMessage
+    const message = `<p>${myMessage.replace(/\n/g, "<br/>\n")}</p>`
     io.to(user.room).emit("message", { user: user.name, message })
 
     callback()

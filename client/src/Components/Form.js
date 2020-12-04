@@ -5,16 +5,25 @@ const Form = () => {
   const [name, setName] = useState("")
   const [room, setRoom] = useState("")
   return (
-    <div>
-      <label htmlFor="name">Name:</label>
-      <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-      <label htmlFor="room">Room:</label>
-      <input type="text" value={room} onChange={(e) => setRoom(e.target.value)} />
+    <div className="signin-content">
+      <h3>Join</h3>
+      <input
+        type="text"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder="Name"
+      />
+      <input
+        type="text"
+        value={room}
+        onChange={(e) => setRoom(e.target.value)}
+        placeholder="Room"
+      />
       <Link
         onClick={(e) => (!name || !room ? e.preventDefault() : null)}
         to={`/chat?name=${name}&room=${room}`}
       >
-        <button type="submit" value="Enter">
+        <button type="submit" value="Enter" className="primary-btn">
           Sign in
         </button>
       </Link>

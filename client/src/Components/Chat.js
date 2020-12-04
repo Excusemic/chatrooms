@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react"
 import queryString from "query-string"
 import io from "socket.io-client"
+import { Link } from "react-router-dom"
 
 const Chat = () => {
   const [name, setName] = useState("")
@@ -13,8 +14,19 @@ const Chat = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+
     if (myMessage) {
       socket.current.emit("send_message", myMessage, () => setMyMessage(""))
+    }
+  }
+  const handleKeyDown = (e) => {
+    if (e.keyCode === 13) {
+      if (e.shiftKey) {
+        return
+      } else {
+        e.preventDefault()
+        handleSubmit(e)
+      }
     }
   }
   useEffect(() => {
@@ -38,7 +50,6 @@ const Chat = () => {
   useEffect(() => {
     socket.current.on("message", ({ user, message }) => {
       const new_message = { user, message }
-      console.log(new_message)
       setMessages((prevState) => {
         return [...prevState, new_message]
       })
@@ -48,31 +59,37 @@ const Chat = () => {
     })
   }, [])
   return (
-    <div>
-      <div className="chatbox">
-        <ul>
-          {messages.map((message, index) => {
-            return (
-              <li key={index}>
-                <h4>{message.user}</h4>
-                <p>{message.message}</p>
-              </li>
-            )
-          })}
-        </ul>
+    <div className="chat-container">
+      <div className="chat-content">
+        <div className="chatbox">
+          <div className="room-data">
+            <h4>{room}</h4>
+            <p>{usersInRoom.length} active</p>
+            <Link to="/">
+              <p className="exit">&#10006;</p>
+            </Link>
+          </div>
+          <ul>
+            {messages.map((message, index) => {
+              return (
+                <li key={index} className={message.user === name ? "myMessage" : "recievedMessage"}>
+                  <h4>{message.user}:</h4>
+                  <div dangerouslySetInnerHTML={{ __html: message.message }}></div>
+                </li>
+              )
+            })}
+          </ul>
+          <form onSubmit={handleSubmit}>
+            <textarea
+              placeholder="Write message..."
+              value={myMessage}
+              onChange={(e) => setMyMessage(e.target.value)}
+              onKeyDown={(e) => handleKeyDown(e)}
+            />
+            <input type="submit" value="send" />
+          </form>
+        </div>
       </div>
-      <div className="room-data">
-        Users in room:
-        <ul>
-          {usersInRoom.map((user) => {
-            return <li key={user.id}>{user.name}</li>
-          })}
-        </ul>
-      </div>
-      <form onSubmit={handleSubmit}>
-        <input type="text" value={myMessage} onChange={(e) => setMyMessage(e.target.value)} />
-        <input type="submit" value="send" />
-      </form>
     </div>
   )
 }
