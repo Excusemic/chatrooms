@@ -9,7 +9,7 @@ const Chat = () => {
   const [usersInRoom, setUsersInRoom] = useState([])
   const [myMessage, setMyMessage] = useState("")
   const [messages, setMessages] = useState([])
-  const ENDPOINT = "http://localhost:5000/"
+  const ENDPOINT = "https://kuzmic-chatrooms.herokuapp.com/"
   const socket = useRef(null)
 
   const handleSubmit = (e) => {
