@@ -52,11 +52,31 @@ code {
 }
 .chat-container {
   @include position(100%, auto, 0);
-  @include flex(nowrap, center, center, row);
+  @include flex(wrap, center, center, row);
   height: 100vh;
   background-color: $primary-bg;
   @include for-phone {
     @include position(100%, auto, 0);
+  }
+  .info {
+    width: 25%;
+    margin: auto;
+    p {
+      margin-top: 2em;
+    }
+    ul {
+      list-style-type: none;
+      li:before {
+        content: "\2022";
+        color: rgb(0, 165, 0);
+        font-weight: bold;
+        display: inline-block;
+        font-size: 1.8em;
+        width: 1em;
+        margin-left: -1em;
+      }
+    }
+    color: #fff;
   }
   .chat-content {
     border-radius: 10px;
@@ -102,18 +122,6 @@ code {
           font-size: 1.6em;
           width: 0.6em;
           margin-left: -1em;
-        }
-        ul {
-          list-style-type: none;
-          li:before {
-            content: "\2022";
-            color: rgb(0, 165, 0);
-            font-weight: bold;
-            display: inline-block;
-            font-size: 1.8em;
-            width: 1em;
-            margin-left: -1em;
-          }
         }
       }
       ul {

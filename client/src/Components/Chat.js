@@ -90,6 +90,15 @@ const Chat = () => {
           </form>
         </div>
       </div>
+      <div className="info">
+        <h2>Chat app made with Node, Express, React and Socket.io</h2>
+        <p>Active users:</p>
+        <ul>
+          {usersInRoom.map((user) => {
+            return <li key={user.id}>{user.name}</li>
+          })}
+        </ul>
+      </div>
     </div>
   )
 }
