@@ -7,9 +7,8 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/">
-          <Home />
-        </Route>
+        <Home />
+
         <Route path="/chat">
           <ChatRoom />
         </Route>
