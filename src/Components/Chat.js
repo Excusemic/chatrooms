@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react"
 import queryString from "query-string"
 import io from "socket.io-client"
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 
 const Chat = () => {
   const [name, setName] = useState("")
@@ -11,7 +11,7 @@ const Chat = () => {
   const [messages, setMessages] = useState([])
   const ENDPOINT = "https://kuzmic-chatrooms.herokuapp.com/"
   const socket = useRef(null)
-
+  const history = useHistory()
   const handleSubmit = (e) => {
     e.preventDefault()
 
@@ -37,6 +37,7 @@ const Chat = () => {
     socket.current.emit("join", { name, room }, (error) => {
       if (error) {
         alert(error)
+        history.push("/")
       }
     })
     const cleanup = () => {
@@ -46,7 +47,7 @@ const Chat = () => {
     return () => {
       cleanup()
     }
-  }, [ENDPOINT])
+  }, [ENDPOINT, history])
   useEffect(() => {
     socket.current.on("message", ({ user, message }) => {
       const new_message = { user, message }
