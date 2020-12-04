@@ -61,6 +61,9 @@ code {
   .info {
     width: 25%;
     margin: auto;
+    @include for-phone {
+      @include position(80%, auto, 0);
+    }
     p {
       margin-top: 2em;
     }
@@ -87,6 +90,7 @@ code {
     @include flex(wrap, space-between, unset, row);
     @include for-phone {
       width: 100%;
+      margin-bottom: 0em;
     }
 
     .chatbox {
